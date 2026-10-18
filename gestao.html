@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Infográfico Interativo | Gestão de Resultados - Dataverse</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .gradient-header {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0369a1 100%);
+    }
+    .glass-card {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+    }
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-800 antialiased min-h-screen">
+
+  <!-- Top Navigation / Language Toggle -->
+  <header class="gradient-header text-white sticky top-0 z-50 shadow-lg border-b border-slate-700/50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-wrap justify-between items-center gap-4">
+      <div class="flex items-center space-x-3">
+        <div class="p-2.5 bg-blue-500/20 rounded-xl border border-blue-400/30 text-blue-300">
+          <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+          </svg>
+        </div>
+        <div>
+          <span class="text-xs font-semibold tracking-wider uppercase text-sky-400 block" data-i18n="tag_course">CURSO: GESTION-CURACION-DATOS</span>
+          <h1 class="text-xl sm:text-2xl font-bold tracking-tight" data-i18n="main_title">Relatório Executivo de Resultados</h1>
+        </div>
+      </div>
+
+      <!-- Action & Language Selector -->
+      <div class="flex items-center gap-3">
+        <div class="inline-flex bg-slate-800/80 p-1.5 rounded-xl border border-slate-700 shadow-inner">
+          <button id="btn-pt" onclick="setLanguage('pt')" class="px-3.5 py-1.5 text-xs font-bold rounded-lg transition-all duration-200 bg-sky-500 text-white shadow">
+            🇧🇷 Português
+          </button>
+          <button id="btn-es" onclick="setLanguage('es')" class="px-3.5 py-1.5 text-xs font-bold rounded-lg transition-all duration-200 text-slate-300 hover:text-white hover:bg-slate-700/50">
+            🇪🇸 Español
+          </button>
+        </div>
+        <button onclick="window.print()" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-2 text-xs font-semibold bg-white/10 hover:bg-white/20 text-white rounded-xl border border-white/10 transition">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+          <span data-i18n="print_btn">Imprimir / PDF</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+
+    <!-- Executive Overview Banner -->
+    <div class="bg-gradient-to-r from-blue-900 to-indigo-900 rounded-2xl p-6 sm:p-8 text-white shadow-xl relative overflow-hidden">
+      <div class="absolute -right-12 -bottom-12 w-64 h-64 bg-sky-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="relative z-10 max-w-4xl space-y-3">
+        <div class="inline-flex items-center gap-2 px-3 py-1 bg-sky-500/20 border border-sky-400/30 rounded-full text-xs font-semibold text-sky-300">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span data-i18n="report_date">Data de elaboração: 8 de outubro de 2026</span>
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight" data-i18n="exec_summary_title">
+          Painel de Performance e Engajamento dos Estudantes
+        </h2>
+        <p class="text-slate-200 text-sm sm:text-base leading-relaxed" data-i18n="exec_summary_desc">
+          Consolidação estratégica de 667 registros de inscrição e análise do funil de conclusão por seções.
+        </p>
+      </div>
+    </div>
+
+    <!-- KPI Metric Cards Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      <!-- KPI 1 -->
+      <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 hover:shadow-md transition">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-semibold tracking-wider uppercase text-slate-500" data-i18n="kpi_enrolled">Total de Inscritos</span>
+          <span class="p-2 bg-blue-50 text-blue-600 rounded-xl">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+          </span>
+        </div>
+        <div class="mt-4 flex items-baseline gap-2">
+          <span class="text-3xl font-extrabold text-slate-900">667</span>
+          <span class="text-xs text-slate-500 font-medium" data-i18n="kpi_base">100% da base</span>
+        </div>
+        <div class="mt-3 text-xs text-slate-600 border-t border-slate-100 pt-2 flex justify-between">
+          <span>ES: <strong>533 (79.9%)</strong></span>
+          <span>PT: <strong>134 (20.1%)</strong></span>
+        </div>
+      </div>
+
+      <!-- KPI 2 -->
+      <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 hover:shadow-md transition">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-semibold tracking-wider uppercase text-slate-500" data-i18n="kpi_completed">Concluíram o Curso</span>
+          <span class="p-2 bg-emerald-50 text-emerald-600 rounded-xl">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          </span>
+        </div>
+        <div class="mt-4 flex items-baseline gap-2">
+          <span class="text-3xl font-extrabold text-emerald-600">295</span>
+          <span class="text-sm font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full">44.2%</span>
+        </div>
+        <div class="mt-3 text-xs text-slate-600 border-t border-slate-100 pt-2" data-i18n="kpi_completed_sub">
+          295 no grupo Espanhol | 0 em Português
+        </div>
+      </div>
+
+      <!-- KPI 3 -->
+      <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 hover:shadow-md transition">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-semibold tracking-wider uppercase text-slate-500" data-i18n="kpi_progress_avg">Evolução Média</span>
+          <span class="p-2 bg-indigo-50 text-indigo-600 rounded-xl">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+          </span>
+        </div>
+        <div class="mt-4 flex items-baseline gap-2">
+          <span class="text-3xl font-extrabold text-indigo-600">49,4%</span>
+          <span class="text-xs text-slate-500 font-medium" data-i18n="kpi_median">Mediana: 50,0%</span>
+        </div>
+        <div class="mt-3 text-xs text-slate-600 border-t border-slate-100 pt-2" data-i18n="kpi_progress_sub">
+          Equilíbrio entre avançados e iniciantes
+        </div>
+      </div>
+
+      <!-- KPI 4 -->
+      <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 hover:shadow-md transition">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-semibold tracking-wider uppercase text-slate-500" data-i18n="kpi_active7d">Acessos Últimos 7 Dias</span>
+          <span class="p-2 bg-amber-50 text-amber-600 rounded-xl">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          </span>
+        </div>
+        <div class="mt-4 flex items-baseline gap-2">
+          <span class="text-3xl font-extrabold text-amber-600">83</span>
+          <span class="text-sm font-semibold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-full">12.4%</span>
+        </div>
+        <div class="mt-3 text-xs text-slate-600 border-t border-slate-100 pt-2" data-i18n="kpi_active7d_sub">
+          584 estudantes (87.6%) sem acesso recente
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 1 & 2: Idiomas & Distribuição dos Estudantes -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      
+      <!-- Idioma Analysis Card (7 cols) -->
+      <div class="lg:col-span-7 bg-white p-6 rounded-2xl shadow-sm border border-slate-200/80 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h3 class="text-lg font-bold text-slate-900" data-i18n="lang_card_title">Desempenho Comparativo por Idioma</h3>
+              <p class="text-xs text-slate-500" data-i18n="lang_card_sub">Diferença acentuada de engajamento e conclusão</p>
+            </div>
+            <span class="text-xs font-semibold px-2.5 py-1 bg-slate-100 text-slate-700 rounded-lg" data-i18n="source_tag">Base 667</span>
+          </div>
+
+          <!-- Comparative Table -->
+          <div class="overflow-x-auto rounded-xl border border-slate-200 mb-6">
+            <table class="w-full text-left text-xs sm:text-sm">
+              <thead class="bg-slate-50 text-slate-700 font-semibold border-b border-slate-200">
+                <tr>
+                  <th class="p-3" data-i18n="th_lang">Idioma</th>
+                  <th class="p-3" data-i18n="th_enrolled">Inscritos</th>
+                  <th class="p-3" data-i18n="th_share">Participação</th>
+                  <th class="p-3" data-i18n="th_avg_prog">Progresso Médio</th>
+                  <th class="p-3" data-i18n="th_done">Concluídos</th>
+                  <th class="p-3" data-i18n="th_last_access">Último Acesso</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100">
+                <tr class="hover:bg-slate-50/80 transition">
+                  <td class="p-3 font-medium flex items-center gap-1.5">
+                    <span>🇪🇸</span> <span data-i18n="lang_es">Espanhol</span>
+                  </td>
+                  <td class="p-3 font-semibold text-slate-900">533</td>
+                  <td class="p-3 text-slate-600">79.9%</td>
+                  <td class="p-3">
+                    <div class="flex items-center gap-2">
+                      <span class="font-bold text-sky-700">56,4%</span>
+                      <div class="w-16 bg-slate-100 h-2 rounded-full overflow-hidden">
+                        <div class="bg-sky-500 h-full" style="width: 56.4%"></div>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="p-3"><span class="px-2 py-0.5 rounded-md font-semibold bg-emerald-100 text-emerald-800">295 (55.3%)</span></td>
+                  <td class="p-3 text-slate-500 text-xs">07/10/2026 22:46</td>
+                </tr>
+                <tr class="hover:bg-slate-50/80 transition">
+                  <td class="p-3 font-medium flex items-center gap-1.5">
+                    <span>🇧🇷</span> <span data-i18n="lang_pt">Português</span>
+                  </td>
+                  <td class="p-3 font-semibold text-slate-900">134</td>
+                  <td class="p-3 text-slate-600">20.1%</td>
+                  <td class="p-3">
+                    <div class="flex items-center gap-2">
+                      <span class="font-bold text-amber-600">21,7%</span>
+                      <div class="w-16 bg-slate-100 h-2 rounded-full overflow-hidden">
+                        <div class="bg-amber-500 h-full" style="width: 21.7%"></div>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="p-3"><span class="px-2 py-0.5 rounded-md font-semibold bg-rose-100 text-rose-800">0 (0.0%)</span></td>
+                  <td class="p-3 text-slate-500 text-xs">08/10/2026 03:24</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Progress Distribution (5 cols) -->
+      <div class="lg:col-span-5 bg-white p-6 rounded-2xl shadow-sm border border-slate-200/80 flex flex-col justify-between">
+        <div>
+          <h3 class="text-lg font-bold text-slate-900" data-i18n="progress_pie_title">Estágio de Progresso dos Alunos</h3>
+          <p class="text-xs text-slate-500 mb-4" data-i18n="progress_pie_sub">Classificação por nível de avanço nas atividades</p>
+          <div class="h-64 relative flex items-center justify-center">
+            <canvas id="progressChart"></canvas>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-3 gap-2 text-center pt-4 border-t border-slate-100 text-xs">
+          <div class="p-2 bg-slate-50 rounded-xl">
+            <span class="block text-slate-400 font-bold" data-i18n="label_no_progress">Sem Início (0%)</span>
+            <span class="text-base font-extrabold text-slate-700">167</span>
+            <span class="block text-[10px] text-slate-500">25.0%</span>
+          </div>
+          <div class="p-2 bg-blue-50/70 rounded-xl">
+            <span class="block text-blue-500 font-bold" data-i18n="label_partial_progress">Em Curso</span>
+            <span class="text-base font-extrabold text-blue-800">205</span>
+            <span class="block text-[10px] text-blue-600">30.7%</span>
+          </div>
+          <div class="p-2 bg-emerald-50/70 rounded-xl">
+            <span class="block text-emerald-600 font-bold" data-i18n="label_full_progress">Concluído</span>
+            <span class="text-base font-extrabold text-emerald-800">295</span>
+            <span class="block text-[10px] text-emerald-600">44.2%</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Funil de Conclusão por Seção (Seção 1 a 8) -->
+    <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-200/80">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6">
+        <div>
+          <h3 class="text-xl font-bold text-slate-900" data-i18n="funnel_title">Estrutura de Conclusão por Seção (Funil Pedagógico)</h3>
+          <p class="text-xs sm:text-sm text-slate-500" data-i18n="funnel_sub">Queda gradativa do engajamento ao longo das 8 seções do curso</p>
+        </div>
+        <div class="flex items-center gap-2 text-xs text-slate-500 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-200">
+          <span class="inline-block w-3 h-3 bg-indigo-600 rounded"></span>
+          <span data-i18n="funnel_legend">Alunos concluintes por módulo</span>
+        </div>
+      </div>
+
+      <!-- Chart Canvas -->
+      <div class="h-80 w-full mb-6">
+        <canvas id="sectionsFunnelChart"></canvas>
+      </div>
+
+      <!-- Interactive Section Pills / Dropdown info -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2.5">
+        <div class="p-2.5 bg-slate-50 rounded-xl border border-slate-200/70 text-center">
+          <span class="text-[11px] font-semibold text-slate-500 block" data-i18n="sec1">Seção 1</span>
+          <span class="text-base font-extrabold text-slate-900">407</span>
+          <span class="text-[10px] text-emerald-600 font-bold block">61.5%</span>
+        </div>
+        <div class="p-2.5 bg-slate-50 rounded-xl border border-slate-200/70 text-center">
+          <span class="text-[11px] font-semibold text-slate-500 block" data-i18n="sec2">Seção 2</span>
+          <span class="text-base font-extrabold text-slate-900">370</span>
+          <span class="text-[10px] text-indigo-600 font-bold block">55.9%</span>
+        </div>
+        <div class="p-2.5 bg-slate-50 rounded-xl border border-slate-200/70 text-center">
+          <span class="text-[11px] font-semibold text-slate-500 block" data-i18n="sec3">Seção 3</span>
+          <span class="text-base font-extrabold text-slate-900">346</span>
+          <span class="text-[10px] text-indigo-600 font-bold block">52.3%</span>
+        </div>
+        <div class="p-2.5 bg-slate-50 rounded-xl border border-slate-200/70 text-center">
+          <span class="text-[11px] font-semibold text-slate-500 block" data-i18n="sec4">Seção 4</span>
+          <span class="text-base font-extrabold text-slate-900">330</span>
+          <span class="text-[10px] text-indigo-600 font-bold block">49.8%</span>
+        </div>
+        <div class="p-2.5 bg-slate-50 rounded-xl border border-slate-200/70 text-center">
+          <span class="text-[11px] font-semibold text-slate-500 block" data-i18n="sec5">Seção 5</span>
+          <span class="text-base font-extrabold text-slate-900">316</span>
+          <span class="text-[10px] text-indigo-600 font-bold block">47.7%</span>
+        </div>
+        <div class="p-2.5 bg-slate-50 rounded-xl border border-slate-200/70 text-center">
+          <span class="text-[11px] font-semibold text-slate-500 block" data-i18n="sec6">Seção 6</span>
+          <span class="text-base font-extrabold text-slate-900">302</span>
+          <span class="text-[10px] text-indigo-600 font-bold block">45.6%</span>
+        </div>
+        <div class="p-2.5 bg-slate-50 rounded-xl border border-slate-200/70 text-center">
+          <span class="text-[11px] font-semibold text-slate-500 block" data-i18n="sec7">Seção 7</span>
+          <span class="text-base font-extrabold text-slate-900">298</span>
+          <span class="text-[10px] text-indigo-600 font-bold block">45.0%</span>
+        </div>
+        <div class="p-2.5 bg-emerald-50 rounded-xl border border-emerald-200 text-center">
+          <span class="text-[11px] font-semibold text-emerald-800 block" data-i18n="sec8">Seção 8</span>
+          <span class="text-base font-extrabold text-emerald-700">293</span>
+          <span class="text-[10px] text-emerald-700 font-bold block">44.3%</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Timeline & Last Access Breakdown -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      
+      <!-- Temporal Evolution (7 cols) -->
+      <div class="lg:col-span-7 bg-white p-6 rounded-2xl shadow-sm border border-slate-200/80">
+        <div class="flex items-center justify-between mb-2">
+          <h3 class="text-lg font-bold text-slate-900" data-i18n="timeline_title">Evolução Temporal das Conclusões (2026)</h3>
+          <span class="text-xs font-semibold px-2.5 py-1 bg-emerald-50 text-emerald-700 rounded-lg" data-i18n="peak_tag">Pico: Setembro</span>
+        </div>
+        <p class="text-xs text-slate-500 mb-6" data-i18n="timeline_sub">
+          Início em 14/08/2026 e conclusão mais recente registrada em 04/10/2026.
+        </p>
+
+        <div class="h-64 w-full">
+          <canvas id="monthlyChart"></canvas>
+        </div>
+
+        <div class="mt-4 pt-4 border-t border-slate-100 grid grid-cols-3 gap-4 text-center">
+          <div>
+            <span class="text-xs text-slate-500 block" data-i18n="month_aug">Agosto 2026</span>
+            <span class="text-xl font-extrabold text-slate-800">97</span>
+            <span class="text-[10px] text-slate-400 block" data-i18n="aug_rate">32.9% do total</span>
+          </div>
+          <div class="border-x border-slate-100">
+            <span class="text-xs text-slate-500 block" data-i18n="month_sep">Setembro 2026</span>
+            <span class="text-xl font-extrabold text-blue-600">189</span>
+            <span class="text-[10px] text-blue-500 font-semibold block" data-i18n="sep_rate">64.1% do total</span>
+          </div>
+          <div>
+            <span class="text-xs text-slate-500 block" data-i18n="month_oct">Outubro 2026</span>
+            <span class="text-xl font-extrabold text-slate-800">7</span>
+            <span class="text-[10px] text-slate-400 block" data-i18n="oct_rate">2.4% (até 04/10)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recency (5 cols) -->
+      <div class="lg:col-span-5 flex flex-col gap-6">
+        
+        <!-- Recency Card -->
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200/80">
+          <h3 class="text-lg font-bold text-slate-900 mb-1" data-i18n="recency_title">Engajamento Atual</h3>
+          <p class="text-xs text-slate-500 mb-4" data-i18n="recency_sub">Comportamento de acessos no período recente</p>
+
+          <div class="space-y-4">
+            <div>
+              <div class="flex justify-between text-xs font-semibold mb-1">
+                <span class="text-emerald-700" data-i18n="active_7d_label">Acessaram nos últimos 7 dias (01 a 08/10)</span>
+                <span class="text-emerald-700">83 (12.4%)</span>
+              </div>
+              <div class="w-full bg-slate-100 h-3 rounded-full overflow-hidden">
+                <div class="bg-emerald-500 h-full rounded-full" style="width: 12.4%"></div>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs font-semibold mb-1">
+                <span class="text-slate-600" data-i18n="inactive_7d_label">Sem acesso nos últimos 7 dias</span>
+                <span class="text-slate-700">584 (87.6%)</span>
+              </div>
+              <div class="w-full bg-slate-100 h-3 rounded-full overflow-hidden">
+                <div class="bg-slate-400 h-full rounded-full" style="width: 87.6%"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-5 p-3.5 bg-slate-50 rounded-xl border border-slate-200/80 text-xs space-y-1.5 text-slate-600">
+            <div class="flex justify-between">
+              <span data-i18n="first_access_lbl">Primeiro acesso registrado:</span>
+              <strong class="text-slate-800">17/08/2026 às 20:09</strong>
+            </div>
+            <div class="flex justify-between">
+              <span data-i18n="last_access_lbl">Último acesso registrado:</span>
+              <strong class="text-slate-800">08/10/2026 às 03:24</strong>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <footer class="mt-12 py-6 border-t border-slate-200 bg-white text-center text-xs text-slate-500">
+    <p data-i18n="footer_text">Painel Interativo de Gestão de Resultados — Dataverse | Desenvolvido para Tomada de Decisão Estratégica</p>
+  </footer>
+
+  <!-- Script for Translations & Interactive Charts -->
+  <script>
+    const translations = {
+      pt: {
+        tag_course: "CURSO: GESTION-CURACION-DATOS",
+        main_title: "Relatório Executivo de Resultados",
+        print_btn: "Imprimir / PDF",
+        report_date: "Data de elaboração: 8 de outubro de 2026",
+        exec_summary_title: "Painel de Performance e Engajamento dos Estudantes",
+        exec_summary_desc: "Consolidação estratégica de 667 registros de inscrição e análise do funil de conclusão por seções.",
+        kpi_enrolled: "Total de Inscritos",
+        kpi_base: "100% da base",
+        kpi_completed: "Concluíram o Curso",
+        kpi_completed_sub: "295 no grupo Espanhol | 0 em Português",
+        kpi_progress_avg: "Evolução Média",
+        kpi_median: "Mediana: 50,0%",
+        kpi_progress_sub: "Equilíbrio entre avançados e iniciantes",
+        kpi_active7d: "Acessos Últimos 7 Dias",
+        kpi_active7d_sub: "584 estudantes (87.6%) sem acesso recente",
+        lang_card_title: "Desempenho Comparativo por Idioma",
+        lang_card_sub: "Diferença acentuada de engajamento e conclusão",
+        source_tag: "Base: 667",
+        th_lang: "Idioma",
+        th_enrolled: "Inscritos",
+        th_share: "Participação",
+        th_avg_prog: "Progresso Médio",
+        th_done: "Concluídos",
+        th_last_access: "Último Acesso",
+        lang_es: "Espanhol",
+        lang_pt: "Português",
+        progress_pie_title: "Estágio de Progresso dos Alunos",
+        progress_pie_sub: "Classificação por nível de avanço nas atividades",
+        label_no_progress: "Sem Início (0%)",
+        label_partial_progress: "Em Curso (0-99%)",
+        label_full_progress: "Concluído (100%)",
+        funnel_title: "Estrutura de Conclusão por Seção (Funil Pedagógico)",
+        funnel_sub: "Queda gradativa do engajamento ao longo das 8 seções do curso",
+        funnel_legend: "Alunos concluintes por módulo",
+        sec1: "Seção 1", sec2: "Seção 2", sec3: "Seção 3", sec4: "Seção 4",
+        sec5: "Seção 5", sec6: "Seção 6", sec7: "Seção 7", sec8: "Seção 8",
+        timeline_title: "Evolução Temporal das Conclusões (2026)",
+        timeline_sub: "Início em 14/08/2026 e conclusão mais recente registrada em 04/10/2026.",
+        peak_tag: "Pico: Setembro",
+        month_aug: "Agosto 2026",
+        month_sep: "Setembro 2026",
+        month_oct: "Outubro 2026",
+        aug_rate: "32.9% do total",
+        sep_rate: "64.1% do total",
+        oct_rate: "2.4% (até 04/10)",
+        recency_title: "Engajamento Atual",
+        recency_sub: "Comportamento de acessos no período recente",
+        active_7d_label: "Acessaram nos últimos 7 dias (01 a 08/10)",
+        inactive_7d_label: "Sem acesso nos últimos 7 dias",
+        first_access_lbl: "Primeiro acesso registrado:",
+        last_access_lbl: "Último acesso registrado:",
+        footer_text: "Painel Interativo de Gestão de Resultados — Dataverse | Desenvolvido para Tomada de Decisão Estratégica",
+        chart_concluintes: "Alunos Concluintes",
+        chart_prog_labels: ["Sem Início (0%)", "Em Andamento (0,1-99,9%)", "Concluído (100%)"],
+        chart_timeline_label: "Conclusões por Mês"
+      },
+      es: {
+        tag_course: "CURSO: GESTION-CURACION-DATOS",
+        main_title: "Informe Ejecutivo de Resultados",
+        print_btn: "Imprimir / PDF",
+        report_date: "Fecha de elaboración: 8 de octubre de 2026",
+        exec_summary_title: "Panel de Rendimiento y Compromiso de Estudiantes",
+        exec_summary_desc: "Consolidación estratégica de 667 registros de matrícula y análisis del embudo de finalización por módulos.",
+        kpi_enrolled: "Total de Inscritos",
+        kpi_base: "100% de la base",
+        kpi_completed: "Completaron el Curso",
+        kpi_completed_sub: "295 en grupo Español | 0 en Portugués",
+        kpi_progress_avg: "Evolución Promedio",
+        kpi_median: "Mediana: 50,0%",
+        kpi_progress_sub: "Equilibrio entre avanzados y principiantes",
+        kpi_active7d: "Accesos Últimos 7 Días",
+        kpi_active7d_sub: "584 estudiantes (87.6%) sin acceso reciente",
+        lang_card_title: "Rendimiento Comparativo por Idioma",
+        lang_card_sub: "Diferencia notable de compromiso y finalización",
+        source_tag: "Base: 667",
+        th_lang: "Idioma",
+        th_enrolled: "Inscritos",
+        th_share: "Participación",
+        th_avg_prog: "Progreso Medio",
+        th_done: "Completados",
+        th_last_access: "Último Acceso",
+        lang_es: "Español",
+        lang_pt: "Portugués",
+        progress_pie_title: "Nivel de Progreso de los Alumnos",
+        progress_pie_sub: "Distribución por etapa de avance en las actividades",
+        label_no_progress: "Sin Inicio (0%)",
+        label_partial_progress: "En Curso (0-99%)",
+        label_full_progress: "Completado (100%)",
+        funnel_title: "Estructura de Finalización por Sección (Embudo Pedagógico)",
+        funnel_sub: "Descenso paulatino del compromiso a lo largo de las 8 secciones",
+        funnel_legend: "Estudiantes que finalizaron por sección",
+        sec1: "Sección 1", sec2: "Sección 2", sec3: "Sección 3", sec4: "Sección 4",
+        sec5: "Sección 5", sec6: "Sección 6", sec7: "Sección 7", sec8: "Sección 8",
+        timeline_title: "Evolución Temporal de Finalizaciones (2026)",
+        timeline_sub: "Inicio el 14/08/2026 y finalización más reciente registrada el 04/10/2026.",
+        peak_tag: "Pico: Septiembre",
+        month_aug: "Agosto 2026",
+        month_sep: "Septiembre 2026",
+        month_oct: "Octubre 2026",
+        aug_rate: "32.9% del total",
+        sep_rate: "64.1% del total",
+        oct_rate: "2.4% (hasta 04/10)",
+        recency_title: "Actividad Reciente",
+        recency_sub: "Comportamiento de accesos en el último período",
+        active_7d_label: "Accedieron en los últimos 7 días (01 al 08/10)",
+        inactive_7d_label: "Sin acceso en los últimos 7 días",
+        first_access_lbl: "Primer acceso registrado:",
+        last_access_lbl: "Último acceso registrado:",
+        footer_text: "Panel Interactivo de Gestión de Resultados — Dataverse | Desarrollado para Toma de Decisiones Estratégicas",
+        chart_concluintes: "Estudiantes que completaron",
+        chart_prog_labels: ["Sin Inicio (0%)", "En Curso (0,1-99,9%)", "Completado (100%)"],
+        chart_timeline_label: "Finalizaciones por Mes"
+      }
+    };
+
+    let currentLang = 'pt';
+    let progressChart, funnelChart, monthlyChart;
+
+    function initCharts() {
+      // 1. Doughnut Chart: Progress distribution
+      const ctxProgress = document.getElementById('progressChart').getContext('2d');
+      progressChart = new Chart(ctxProgress, {
+        type: 'doughnut',
+        data: {
+          labels: translations[currentLang].chart_prog_labels,
+          datasets: [{
+            data: [167, 205, 295],
+            backgroundColor: ['#94a3b8', '#38bdf8', '#10b981'],
+            borderWidth: 2,
+            borderColor: '#ffffff',
+            hoverOffset: 6
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: {
+                boxWidth: 12,
+                font: { size: 11, family: "'Plus Jakarta Sans', sans-serif" }
+              }
+            },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  const val = context.raw;
+                  const total = 667;
+                  const pct = ((val / total) * 100).toFixed(1);
+                  return ` ${context.label}: ${val} (${pct}%)`;
+                }
+              }
+            }
+          },
+          cutout: '68%'
+        }
+      });
+
+      // 2. Bar Chart: Sections Funnel
+      const ctxFunnel = document.getElementById('sectionsFunnelChart').getContext('2d');
+      const funnelLabels = ['Seção 1', 'Seção 2', 'Seção 3', 'Seção 4', 'Seção 5', 'Seção 6', 'Seção 7', 'Seção 8'];
+      funnelChart = new Chart(ctxFunnel, {
+        type: 'bar',
+        data: {
+          labels: funnelLabels,
+          datasets: [{
+            label: translations[currentLang].chart_concluintes,
+            data: [407, 370, 346, 330, 316, 302, 298, 293],
+            backgroundColor: [
+              '#3b82f6', '#4f46e5', '#6366f1', '#6d28d9',
+              '#7c3aed', '#8b5cf6', '#9333ea', '#10b981'
+            ],
+            borderRadius: 8,
+            borderSkipped: false
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              beginAtZero: true,
+              max: 500,
+              grid: { color: '#f1f5f9' },
+              ticks: { font: { size: 11 } }
+            },
+            x: {
+              grid: { display: false },
+              ticks: { font: { size: 11 } }
+            }
+          },
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                afterLabel: function(context) {
+                  const pcts = [61.5, 55.9, 52.3, 49.8, 47.7, 45.6, 45.0, 44.3];
+                  return `Taxa na base: ${pcts[context.dataIndex]}%`;
+                }
+              }
+            }
+          }
+        }
+      });
+
+      // 3. Line/Bar Chart: Monthly Evolution
+      const ctxMonthly = document.getElementById('monthlyChart').getContext('2d');
+      monthlyChart = new Chart(ctxMonthly, {
+        type: 'line',
+        data: {
+          labels: [
+            currentLang === 'pt' ? 'Agosto' : 'Agosto',
+            currentLang === 'pt' ? 'Setembro' : 'Septiembre',
+            currentLang === 'pt' ? 'Outubro' : 'Octubre'
+          ],
+          datasets: [{
+            label: translations[currentLang].chart_timeline_label,
+            data: [97, 189, 7],
+            borderColor: '#0284c7',
+            backgroundColor: 'rgba(2, 132, 199, 0.12)',
+            fill: true,
+            tension: 0.35,
+            pointBackgroundColor: '#0369a1',
+            pointRadius: 6,
+            pointHoverRadius: 8,
+            borderWidth: 3
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              beginAtZero: true,
+              max: 220,
+              grid: { color: '#f1f5f9' },
+              ticks: { font: { size: 11 } }
+            },
+            x: {
+              grid: { display: false },
+              ticks: { font: { size: 11 } }
+            }
+          },
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  return ` Conclusões: ${context.raw} estudantes`;
+                }
+              }
+            }
+          }
+        }
+      });
+    }
+
+    function setLanguage(lang) {
+      currentLang = lang;
+      
+      // Update toggle buttons styling
+      const btnPt = document.getElementById('btn-pt');
+      const btnEs = document.getElementById('btn-es');
+      if (lang === 'pt') {
+        btnPt.className = "px-3.5 py-1.5 text-xs font-bold rounded-lg transition-all duration-200 bg-sky-500 text-white shadow";
+        btnEs.className = "px-3.5 py-1.5 text-xs font-bold rounded-lg transition-all duration-200 text-slate-300 hover:text-white hover:bg-slate-700/50";
+      } else {
+        btnEs.className = "px-3.5 py-1.5 text-xs font-bold rounded-lg transition-all duration-200 bg-sky-500 text-white shadow";
+        btnPt.className = "px-3.5 py-1.5 text-xs font-bold rounded-lg transition-all duration-200 text-slate-300 hover:text-white hover:bg-slate-700/50";
+      }
+
+      // Update Text Elements with data-i18n
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (translations[lang][key]) {
+          el.innerHTML = translations[lang][key];
+        }
+      });
+
+      // Update Charts
+      if (progressChart && funnelChart && monthlyChart) {
+        // Doughnut
+        progressChart.data.labels = translations[lang].chart_prog_labels;
+        progressChart.update();
+
+        // Funnel
+        const secPrefix = lang === 'pt' ? 'Seção' : 'Sección';
+        funnelChart.data.labels = [1,2,3,4,5,6,7,8].map(i => `${secPrefix} ${i}`);
+        funnelChart.data.datasets[0].label = translations[lang].chart_concluintes;
+        funnelChart.update();
+
+        // Monthly
+        monthlyChart.data.labels = [
+          lang === 'pt' ? 'Agosto' : 'Agosto',
+          lang === 'pt' ? 'Setembro' : 'Septiembre',
+          lang === 'pt' ? 'Outubro' : 'Octubre'
+        ];
+        monthlyChart.data.datasets[0].label = translations[lang].chart_timeline_label;
+        monthlyChart.update();
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      initCharts();
+    });
+  </script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v4bc70e2c01a94c73b74392e4234840661791215815920" integrity="sha512-L0ha0OXavK/8okipN9F8BtP84dg9DUhPERbBXzwI6dgTA55d2+yweo3pn5CSFYs45/r8md2+xvUPtTdvTNRfjA==" data-cf-beacon='{"version":"2024.11.0","token":"4edd5f8ec12a48cfa682ab8261b80a79","spa":2}' crossorigin="anonymous"></script>
+</body>
+</html>
